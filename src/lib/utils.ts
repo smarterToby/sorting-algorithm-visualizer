@@ -2,14 +2,14 @@ import { generateInsertionSortAnimationArray } from "@/algorithms/insertionSort"
 import { generateQuickSortAnimationArray } from "@/algorithms/quickSort";
 import { generateSelectionSortAnimationArray } from "@/algorithms/selectionSort";
 import { SortingAlgorithmType } from "./types";
-import { generateBubbleSortAnimationArray } from "@/algorithms/bubblesort";
 import { generateMergeSortAnimationArray } from "@/algorithms/mergeSort";
+import { generateBubbleSortAnimationArray } from "@/algorithms/bubbleSort";
 
 export function generateRandomNumberFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export const MNI_ANIMATION_SPEED = 100;
+export const MIN_ANIMATION_SPEED = 100;
 export const MAX_ANIMATION_SPEED = 400;
 
 export const algorithmOptions = [
