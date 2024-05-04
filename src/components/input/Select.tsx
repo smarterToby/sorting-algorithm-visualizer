@@ -1,41 +1,80 @@
-import { SelectOptionsType } from "@/lib/types";
-import React from "react";
+'use client';
+
+import { SelectOptionsType, SortingAlgorithmType } from '@/lib/types';
+import React from 'react';
+import { Button } from '../ui/button';
+import { Check, ChevronsUpDown } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 export const Select = ({
   options,
   defaultValue,
   onChange,
-  isDisabled = false,
+  isDisabled = true,
 }: {
   options: SelectOptionsType[];
   defaultValue: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: any;
   isDisabled?: boolean;
 }) => {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState('');
 
   return (
-    <div className="inline-block relative w-48">
-      <select
-        disabled={isDisabled}
-        onChange={onChange}
-        defaultValue={defaultValue}
-        className="block appearance-none h-8 w-full bg-system-purple10 border-system-purple20 border px-4 py-1 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-gray-300"
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-        <svg
-          className="fill-gray-300 h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild disabled={isDisabled}>
+        <Button
+          variant='outline'
+          role='combobox'
+          aria-expanded={open}
+          className='w-[200px] justify-between'
+          disabled={isDisabled}
         >
-          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-        </svg>
-      </div>
-    </div>
+          {value
+            ? options.find((option) => option.value === value)?.label
+            : 'Select algorithm...'}
+          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className='w-[200px] p-0'>
+        <Command onChange={onChange}>
+          <CommandInput placeholder='Search Algorithm...' />
+          <CommandEmpty>No algorithm found.</CommandEmpty>
+          <CommandGroup>
+            {options.map((option) => (
+              <CommandItem
+                key={option.value}
+                value={option.value}
+                onSelect={(currentValue) => {
+                  setValue(currentValue === value ? '' : currentValue);
+                  setOpen(false);
+                }}
+              >
+                <Check
+                  className={cn(
+                    'mr-2 h-4 w-4',
+                    value === option.value ? 'opacity-100' : 'opacity-0'
+                  )}
+                />
+                {option.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 };

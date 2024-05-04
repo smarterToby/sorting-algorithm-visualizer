@@ -1,24 +1,34 @@
+import { generateBubbleSortAnimationArray } from "@/algorithms/bubbleSort";
 import { generateInsertionSortAnimationArray } from "@/algorithms/insertionSort";
+import { generateMergeSortAnimationArray } from "@/algorithms/mergeSort";
 import { generateQuickSortAnimationArray } from "@/algorithms/quickSort";
 import { generateSelectionSortAnimationArray } from "@/algorithms/selectionSort";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 import { SortingAlgorithmType } from "./types";
-import { generateMergeSortAnimationArray } from "@/algorithms/mergeSort";
-import { generateBubbleSortAnimationArray } from "@/algorithms/bubbleSort";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export function generateRandomNumberFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export const MIN_ANIMATION_SPEED = 100;
+export const MNI_ANIMATION_SPEED = 100;
 export const MAX_ANIMATION_SPEED = 400;
 
 export const algorithmOptions = [
-  { label: "Bubble", value: "bubble" },
-  { label: "Quick", value: "quick" },
-  { label: "Merge", value: "merge" },
-  { label: "Insertion", value: "insertion" },
-  { label: "Selection", value: "selection" },
+  { label: "Bubble Sort", value: "bubble" },
+  { label: "Quick Sort", value: "quick" },
+  { label: "Merge Sort", value: "merge" },
+  { label: "Insertion Sort", value: "insertion" },
+  { label: "Selection Sort", value: "selection" },
 ];
+
+export function findAlgorithm(value: string) {
+  return algorithmOptions.find((option) => option.value === value);
+}
 
 export function generateAnimationArray(
   selectedAlgorithm: SortingAlgorithmType,
